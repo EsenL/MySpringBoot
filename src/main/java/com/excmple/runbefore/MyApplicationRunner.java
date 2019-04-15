@@ -70,4 +70,38 @@ public class MyApplicationRunner implements ApplicationRunner {
             System.out.println("执行创建GIT同步任务失败.") ;
         }
     }
+
+    public static void main(String args[]){
+        File directory = new File("");// 参数为空
+        String courseFile = null;
+        try {
+            courseFile = directory.getCanonicalPath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String classpath=courseFile.toString().replace("\\","/");
+        String create = classpath+"/MySpringBoot/src/main/resources/GITupload/GITupload.bat";
+
+        System.out.println("执行GIT同步任务");
+
+        Runtime rt = Runtime.getRuntime();
+        Process ps = null;
+        int i = 0;
+
+        //执行创建
+        try {
+            ps = rt.exec("cmd.exe /C start /b " + create);
+            ps.waitFor();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        i = ps.exitValue();
+        if (i == 0) {
+            System.out.println("执行创建GIT同步任务完成.") ;
+        } else {
+            System.out.println("执行创建GIT同步任务失败.") ;
+        }
+    }
 }
